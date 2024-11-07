@@ -13,10 +13,10 @@ const constraintRight = 10;
 const constraintTop = 15;
 const constraintBottom = 25;
 
-solver.add(x.ge(constraintLeft));
-solver.add(x.le(constraintRight));
-solver.add(y.ge(constraintTop));
-solver.add(y.le(constraintBottom));
+solver.add(x.ge(constraintLeft+1));
+solver.add(x.le(constraintRight-1));
+solver.add(y.ge(constraintTop+1));
+solver.add(y.le(constraintBottom-1));
 
 // Run Z3 solver, find solution and sat/unsat
 if (await solver.check() === "sat") {
