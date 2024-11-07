@@ -4,37 +4,30 @@ const { Context } = await init();
 const { Solver, Int, And, Or, Distinct } = new Context("main");
 const solver = new Solver();
 
-const Bob = Int.const('Bob');  // x is a Z3 integer
-const Mary = Int.const('Mary');
-const Cathy = Int.const('Cathy');
-const Sue = Int.const('Sue');
 
-const Dog = 1;
-const Cat = 2;
-const Bird = 3;
-const Fish = 4;
+const x = Int.const('x');
+const y = Int.const('y');
 
+const constraintLeft = 5;
+const constraintRight = 10;
+const constraintTop = 15;
+const constraintBottom = 25;
 
-
-solver.add(Distinct(Bob, Mary, Cathy, Sue));
-solver.add(Bob.eq(Dog));
-solver.add(Sue.eq(Bird));
-solver.add(Mary.l(Fish));
-
-
-
+solver.add(x.ge(constraintLeft));
+solver.add(x.le(constraintRight));
+solver.add(y.ge(constraintTop));
+solver.add(y.le(constraintBottom));
 
 // Run Z3 solver, find solution and sat/unsat
-console.log(await solver.check());
+if (await solver.check() === "sat") {
 
-// Extract value for x
-const model = solver.model();
-const bobVal = model.eval(Bob);
-const MaryVal = model.eval(Mary);
-const CathyVal = model.eval(Cathy);
-const SueVal = model.eval(Sue);
+    // Extract value for x
+    let model = solver.model();
+    let xValprint = model.eval(x);
+    let yValprint = model.eval(y);
 
-console.log(`${bobVal}`);
-console.log(`${MaryVal}`);
-console.log(`${CathyVal}`);
-console.log(`${SueVal}`);
+    console.log(`x: ${xValprint}`);
+    console.log(`y: ${yValprint}`);
+} else {
+    console.log("unsat. Could not find a valid value for x.");
+}
